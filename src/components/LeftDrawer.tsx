@@ -22,7 +22,7 @@ const LeftDrawer = ({ isDrawerOpen, setIsDrawerOpen }: LeftDrawerProps) => {
   return (
     <Drawer anchor={"left"} open={isDrawerOpen} onClose={closeDrawer}>
       <LeftDrawerStyles>
-        <Link onClick={closeDrawer} to="/welcome">
+        <Link onClick={closeDrawer} to="/">
           Welcome
         </Link>
         <Link onClick={closeDrawer} to="/explore">

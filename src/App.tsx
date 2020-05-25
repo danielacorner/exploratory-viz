@@ -1,25 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Nav from "./components/Nav";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { useTheme } from "styled-components";
+import WelcomePage from "./pages/WelcomePage";
+import ExploratoryVizPage from "./pages/ExploratoryVizPage";
 
 function App() {
+  const theme = useTheme();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Layout>
+        <BrowserRouter>
+          <Nav />
+          <div className="pageContent">
+            <Route exact={true} path="/" component={WelcomePage} />
+            <Route
+              exact={true}
+              path="/explore"
+              component={ExploratoryVizPage}
+            />
+          </div>
+        </BrowserRouter>
+      </Layout>
+    </ThemeProvider>
   );
 }
 

@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components/macro";
-import { darkGrey } from "../../utils/colors";
+import React, { useState } from "react";
 import { animated, useSpring } from "react-spring";
+import { useMount } from "../../utils/customHooks";
+import { BarStyles } from "./BarStyles";
 
 enum LabelPositions {
   center,
@@ -17,35 +17,6 @@ type BarProps = {
   tickLabel: string;
 };
 
-const TICK_HEIGHT_PX = 12;
-const TICK_WIDTH_PX = 1;
-
-const BarStyles = styled.div`
-  .bar {
-    background: ${(props) => props.barColor};
-    transform-origin: bottom;
-  }
-  display: grid;
-  align-items: end;
-  height: 100%;
-  position: relative;
-  .tickLabel {
-    position: absolute;
-    bottom: -1.5em;
-    left: 0;
-    right: 0;
-    text-align: center;
-  }
-  .tick {
-    position: absolute;
-    background: ${darkGrey};
-    bottom: -${TICK_HEIGHT_PX / 2}px;
-    left: calc(50% - ${TICK_WIDTH_PX / 2}px);
-    width: ${TICK_WIDTH_PX}px;
-    height: ${TICK_HEIGHT_PX}px;
-  }
-`;
-
 /**
  *  @param lengthPercent the length of the bar, as a % between 0 and 1, of the bar chart length
  *  @param dataLabel optional data label to attach to each bar
@@ -58,10 +29,18 @@ const Bar = ({
   barColor,
   tickLabel,
 }: BarProps) => {
+  const barHeight = lengthPercent * 100;
+
   // the bars spring up and down when you swap out the data,
   // so we can see the relative scale between datasets
+
+  // set "isMounted" to true on mount so we can spring up on mount
+  const [isMounted, setIsMounted] = useState(false);
+  useMount(() => setIsMounted(true));
+
   const springUp = useSpring({
-    height: `${lengthPercent * 100}%`,
+    // start at 0 height, then spring up
+    height: `${isMounted ? barHeight : 0}%`,
   });
   return (
     <BarStyles barColor={barColor}>

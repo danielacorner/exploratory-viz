@@ -1,33 +1,12 @@
 import React from "react";
-import styled from "styled-components/macro";
 import Bar from "./Bar";
-import { darkGrey } from "../../utils/colors";
-import { useTransition } from "react-spring";
-import { animated } from "react-spring";
+import { useTransition, animated } from "react-spring";
+import { BarChartStyles } from "./BarChartStyles";
 
 export enum BarChartLayouts {
   horizontal,
   vertical,
 }
-
-const BarChartStyles = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: ${(props) =>
-    props.layout === BarChartLayouts.horizontal
-      ? "column"
-      : props.layout === BarChartLayouts.vertical
-      ? "row"
-      : "unset"};
-  align-items: end;
-  border-bottom: 1px solid ${darkGrey};
-  position: relative;
-  .barWrapper {
-    transform-origin: bottom;
-    height: 100%;
-  }
-`;
 
 type BarChartProps = {
   data: object[];
